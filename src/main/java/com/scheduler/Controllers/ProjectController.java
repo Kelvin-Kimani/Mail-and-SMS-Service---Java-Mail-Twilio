@@ -117,9 +117,9 @@ public class ProjectController {
     void sendSMS(User user, Meeting meeting){
 
         String phoneNumber = user.getPhoneNumber();
-        String message = "Evening "+ user.getName() + "." +
-                "Your " + meeting.getName() + " meeting is scheduled to happen today at " + meeting.getStartTime() + "." +
-                "Purpose to attend.";
+        String message = "Hi "+ user.getName() + ". " +
+                "Your " + meeting.getName() + " meeting is scheduled to happen today at " + meeting.getStartTime() + ". " +
+                "Purpose to attend, Thank You!";
 
 
         smsRequest.setPhoneNumber(phoneNumber);
@@ -129,7 +129,7 @@ public class ProjectController {
 
     }
 
-    @Scheduled(cron = "0 5 11 * * *")
+    @Scheduled(cron = "0 0 6 * * *")
     void sendMails() throws MessagingException, UnsupportedEncodingException {
 
         //Get today's meetings
@@ -156,7 +156,7 @@ public class ProjectController {
 
 
     // TODO: Verify twilio numbers to send sms
-    @Scheduled(cron = "0 15 17 * * *")
+    @Scheduled(cron = "0 0 6 * * *")
     void sendManySms(){
 
         //Get today's meetings
@@ -169,6 +169,7 @@ public class ProjectController {
             User owner = userRepository.findById(ownerId);
 
             sendSMS(owner, meeting);
+            System.out.println("SMS sent to " + owner.getName() +" at " + LocalTime.now());
 
             //Get meetings users
             for (User user : meeting.getUsers()){
